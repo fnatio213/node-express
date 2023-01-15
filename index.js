@@ -1,12 +1,29 @@
 const express = require('express')
-const parser = require('body-parser')
+
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
-const {listBookapiController,createBookapiController,deleteBookapiController,updateBookapiController} = require("./controllers");
-const app = (express)();
+  const {listBooksController,createBooksController,deleteBooksController,updateBooksController} = require("./controllers");
+const app = express();
+
 
 app.use(bodyParser.json)
 
-app.get('/')
+app.get('/books/:id?', listBooksController);
 
-app.listen(3000, () =>console.log('Server is up and running'))
+app.post('/book', createBooksController);
+
+app.post('/book', updateBooksController)
+app.delete('/book', deleteBooksController)
+
+
+
+
+mongoose.set('strictQuery', false); 
+
+mongoose.connect("mongodb+srv://Op_Psych:Felix@Vera@cluster0.bocq1lr.mongodb.net/?retryWrites=true&w=majority", {useNewUrlParser: true, useUnifiedTopology: true} ).then(
+    result=> {
+        app.listen(3000, () => console.log('Server is up and running'))   
+    }
+).catch(err => console.log(err));
+
+
