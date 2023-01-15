@@ -1,48 +1,12 @@
-const express = require('express');
+const express = require('express')
+const parser = require('body-parser')
+const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
+const {listBookapiController,createBookapiController,deleteBookapiController,updateBookapiController} = require("./controllers");
+const app = (express)();
 
-const path = require('path')
+app.use(bodyParser.json)
 
-server.use(express.static(path.join(__dirname, "public")))
+app.get('/')
 
-const servicePage = (req, res) => {
-    const servicePath= path.join(__dirname,"public", "service.html")
-
-res.sendfile(servicePath)
-
-}
-
-
-const homePage = (req, res) => {
-    const homePath= path.join(__dirname,"public", "index.html")
-
-res.sendfile(homePath)
-
-}
-
-
-const aboutPage = (req, res) => {
-    const aboutPath= path.join(__dirname,"public", "about.html")
-
-res.sendfile(aboutPath)
-
-}
-
-
-const contactPage = (req, res) => {
-    const contactPath= path.join(__dirname,"public", "contact.html")
-
-res.sendfile(contactPath)
-
-}
-
-
-const server = express();
-server.get('/contact',aboutPage);
-server.get('/about',aboutPage);
-server.post('/services',servicePage);
-server.get('/',homePage);
-
-
-server.listen(3000, 'localhost', () => {
-    console.log("server is in actioon")
-});
+app.listen(3000, () =>console.log('Server is up and running'))
