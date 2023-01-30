@@ -2,7 +2,7 @@ const express = require('express')
 
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
-  const {listBooksController,createBooksController,deleteBooksController,updateBooksController} = require("./controllers");
+  const {listBooksController,createBooksController,deleteBooksController,updateBooksController, createAuthorController, listAuthorController} = require("./controllers");
 const app = express();
 
 
@@ -15,6 +15,9 @@ app.post('/book', createBooksController);
 app.post('/book', updateBooksController)
 app.delete('/book', deleteBooksController)
 
+app.post('/author', createAuthorController)
+
+app.get('/author', listAuthorController);
 
 
 

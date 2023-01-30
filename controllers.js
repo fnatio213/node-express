@@ -58,19 +58,47 @@ const deleteBooksController = (req, res) => {
     const {id} = req.body;
       bookModel.findByIdAndRemove(id).then(deleted => {
         if(deleted){
-            res.json({message: "book has been deleted", data: deleted});
+                authorModel.deleteMany(id).then( {bookId: deleted._id}).then(result => {
+                            
+                    res.json({message: "book has been deleted", data: deleted});
+                }).catch(err => console.log(err))
+
+            
 
         }
+    return
+
         res.json({message: "warning Bank not found" })
       })
     
 }
 
 
+const createAuthorController = (req, res) => {
+    const {name, email, country, bookId} = req.body;
+    const author = new authorModel({name, email, country, bookId});
+    author.save().then(result => {
+        if(result)
+        res.json({message: "Author has been saved", data: result});
+        else
+        res.json({messsage: "Mission Failed"})
+
+    })
+}
+
+const listAuthorController = (req,res) => {
+    authorModel.find()
+    .populate("bookId", "name email country -_id")
+    .then(authors => {
+        res.json({data: authors});
+    }).catch(err => console.log(err));
+}
 
 module.exports = {
     createBooksController,
     listBooksController,
     updateBooksController,
-    deleteBooksController
+    deleteBooksController,
+    createAuthorController,
+    listAuthorController
 }
